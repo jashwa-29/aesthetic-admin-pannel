@@ -26,27 +26,7 @@ export const Header = ({ collapsed, setCollapsed }) => {
                 </button>
              
             </div>
-            <div className="flex items-center gap-x-3">
-                <button
-                    className="btn-ghost size-10"
-                    onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-                >
-                    <Sun
-                        size={20}
-                        className="dark:hidden"
-                    />
-                    <Moon
-                        size={20}
-                        className="hidden dark:block"
-                    />
-                </button>
-                <button
-                    className="btn-ghost size-10"
-                    onClick={handleLogout} // Logout functionality
-                >
-                    <LogOut size={20} /> {/* Replacing Bell with LogOut */}
-                </button>
-            </div>
+           
         </header>
     );
 };
