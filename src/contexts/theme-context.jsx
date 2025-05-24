@@ -1,15 +1,14 @@
 import { createContext, useEffect, useState } from "react";
-
 import PropTypes from "prop-types";
 
 const initialState = {
-    theme: "system",
+    theme: "light",
     setTheme: () => null,
 };
 
 export const ThemeProviderContext = createContext(initialState);
 
-export function ThemeProvider({ children, defaultTheme = "system", storageKey = "vite-ui-theme", ...props }) {
+export function ThemeProvider({ children, defaultTheme = "light", storageKey = "vite-ui-theme", ...props }) {
     const [theme, setTheme] = useState(() => localStorage.getItem(storageKey) || defaultTheme);
 
     useEffect(() => {
@@ -19,7 +18,6 @@ export function ThemeProvider({ children, defaultTheme = "system", storageKey = 
 
         if (theme === "system") {
             const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-
             root.classList.add(systemTheme);
             return;
         }
@@ -36,10 +34,7 @@ export function ThemeProvider({ children, defaultTheme = "system", storageKey = 
     };
 
     return (
-        <ThemeProviderContext.Provider
-            {...props}
-            value={value}
-        >
+        <ThemeProviderContext.Provider {...props} value={value}>
             {children}
         </ThemeProviderContext.Provider>
     );
