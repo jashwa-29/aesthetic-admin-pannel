@@ -18,10 +18,12 @@ const SpecialsPromotionsPage = () => {
 
   const fetchPromotions = async () => {
     try {
-      const res = await axios.get(API_URL, {
+      const res = await axios.get(API_URL + '/api/specialsPromotions', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPromotions(res.data);
+      console.log("Promotions fetched successfully:", res.data);
+      
     } catch (err) {
       setError("Failed to load promotions");
     }
@@ -59,7 +61,7 @@ const SpecialsPromotionsPage = () => {
 
     try {
       setLoading(true);
-      await axios.post(API_URL, formData, {
+      await axios.post(API_URL + '/api/specialsPromotions', formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -83,7 +85,7 @@ const SpecialsPromotionsPage = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`${API_URL}/${deleteId}`, {
+      await axios.delete(`${API_URL}/api/specialsPromotions/${deleteId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPromotions((prev) => prev.filter((item) => item._id !== deleteId));
@@ -190,7 +192,7 @@ const SpecialsPromotionsPage = () => {
                 >
                   <td className="px-6 py-4">
                     <img
-                      src={`https://admin.aestheticstudio.in/uploads/${item.image}`}
+                      src={item.image}
                       alt={item.month}
                       className="w-20 h-20 object-cover rounded-md border dark:border-gray-600"
                     />

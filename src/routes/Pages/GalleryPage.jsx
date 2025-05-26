@@ -54,7 +54,7 @@ const GalleryPage = () => {
 
     try {
       setLoading(true);
-      await axios.post(API_URL, formData, {
+      await axios.post(API_URL+'/api/gallery', formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
