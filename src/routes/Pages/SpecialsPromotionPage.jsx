@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
-const API_URL = "https://aesthetic-backend-5jyv.onrender.com/api/specialsPromotions";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const SpecialsPromotionsPage = () => {
   const [image, setImage] = useState(null);
@@ -190,7 +190,7 @@ const SpecialsPromotionsPage = () => {
                 >
                   <td className="px-6 py-4">
                     <img
-                      src={`https://aesthetic-backend-5jyv.onrender.com/uploads/${item.image}`}
+                      src={`https://admin.aestheticstudio.in/uploads/${item.image}`}
                       alt={item.month}
                       className="w-20 h-20 object-cover rounded-md border dark:border-gray-600"
                     />

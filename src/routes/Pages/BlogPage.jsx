@@ -62,6 +62,7 @@ const BlogPage = () => {
 
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+   const apiUri = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     if (!token) {
@@ -74,7 +75,7 @@ const BlogPage = () => {
   const fetchBlogs = async () => {
     try {
       setIsLoading(true);
-      const res = await axios.get("https://aesthetic-backend-5jyv.onrender.com/api/blogs/", {
+      const res = await axios.get(`${apiUri}/api/blogs/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBlogs(res.data.blogs);
@@ -274,6 +275,9 @@ const BlogPage = () => {
     });
     setEditingId(null);
     setError("");
+    // Reset file input
+    const fileInput = document.getElementById('featuredImage');
+    if (fileInput) fileInput.value = '';
   };
 
   const validateForm = () => {
@@ -313,7 +317,7 @@ const BlogPage = () => {
       }
 
       // Append arrays and objects as JSON
- newBlog.tags.forEach(tag => formData.append("tags", tag));
+      newBlog.tags.forEach(tag => formData.append("tags", tag));
       formData.append("sections", JSON.stringify(newBlog.sections));
       formData.append("faqs", JSON.stringify(newBlog.faqs));
       formData.append("highlightBox", JSON.stringify(newBlog.highlightBox));
@@ -323,24 +327,24 @@ const BlogPage = () => {
         formData.append("featuredImage", newBlog.featuredImage);
       }
 
+      let res;
       if (editingId) {
-        await axios.put(`https://aesthetic-backend-5jyv.onrender.com/api/blogs/${editingId}`, formData, {
+        res = await axios.put(`${apiUri}/api/blogs/${editingId}`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         });
-        setSuccessMessage("Blog updated successfully!");
       } else {
-        await axios.post("https://aesthetic-backend-5jyv.onrender.com/api/blogs/", formData, {
+        res = await axios.post(`${apiUri}/api/blogs/`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         });
-        setSuccessMessage("Blog created successfully!");
       }
 
+      setSuccessMessage(editingId ? "Blog updated successfully!" : "Blog created successfully!");
       fetchBlogs();
       clearForm();
     } catch (err) {
@@ -388,7 +392,7 @@ const BlogPage = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`https://aesthetic-backend-5jyv.onrender.com/api/blogs/${blogToDelete}`, {
+      await axios.delete(`${apiUri}/api/blogs/${blogToDelete}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchBlogs();
@@ -453,7 +457,11 @@ const BlogPage = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <form 
+          key={`form-${editingId || 'new'}`}
+          onSubmit={handleSubmit} 
+          className="space-y-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow"
+        >
           {/* Title and Slug */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>

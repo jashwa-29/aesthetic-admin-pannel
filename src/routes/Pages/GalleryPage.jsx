@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
-const API_URL = "https://aesthetic-backend-5jyv.onrender.com/api/gallery";
+const API_URL =import.meta.env.VITE_API_BASE_URL;
 const CATEGORY_OPTIONS = [
   "Face",
   "Breast",
@@ -25,7 +25,7 @@ const GalleryPage = () => {
 
   const fetchGallery = async () => {
     try {
-      const res = await axios.get(API_URL, {
+      const res = await axios.get(API_URL+'/api/gallery',  {
         headers: { Authorization: `Bearer ${token}` },
       });
       setGalleryItems(res.data);
@@ -76,7 +76,7 @@ const GalleryPage = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`${API_URL}/${deleteId}`, {
+      await axios.delete(`${API_URL}/api/gallery/${deleteId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setGalleryItems((prev) => prev.filter((item) => item._id !== deleteId));

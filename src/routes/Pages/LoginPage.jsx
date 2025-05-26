@@ -8,13 +8,14 @@ function LoginPage() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+      const apiUri = import.meta.env.VITE_API_BASE_URL
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError("");
         try {
-            const res = await axios.post("https://aesthetic-backend-5jyv.onrender.com/api/auth/login", { email, password });
+            const res = await axios.post(`${apiUri}/api/auth/login`, { email, password });
             const { token, user } = res.data;
 
             localStorage.setItem("token", token);

@@ -8,12 +8,14 @@ const BlogDetails = () => {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
+  const apiUri = import.meta.env.VITE_API_BASE_URL
+
 
   useEffect(() => {
     const fetchBlog = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`https://aesthetic-backend-5jyv.onrender.com/api/blogs/slug/${slug}`, {
+        const res = await axios.get(    `${apiUri}/blogs/slug/${slug}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
